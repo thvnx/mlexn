@@ -1,0 +1,3 @@
+(executable
+ (name fast_two_sum)
+ (libraries mlexn))
