@@ -1,0 +1,25 @@
+opam-version: "2.0"
+name:         "mlexn"
+version:      "1.0"
+maintainer:   "Laurent Thévenoux <lrnt@thvnx.com>"
+authors:      "Laurent Thévenoux <lrnt@thvnx.com>"
+homepage:     "https://github.com/thvnx/mlexn"
+bug-reports:  "https://github.com/thvnx/mlexn/issues"
+license:      "GPL-3.0"
+dev-repo:     "git+https://github.com/thvnx/mlexn.git"
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+]
+depends: [
+  "ocaml" {>= "4.09"}
+  "dune"  {>= "1.11.0"}
+]
+synopsis: "OCaml modules for high precision floating-point computations"
+url {
+  src: "https://github.com/thvnx/mlexn/archive/mlexn.1.0.tar.gz"
+  checksum: "md5=<to compute before sending package to opam>"
+}
+description: """
+The package provides high precision floating-point routines.
+"""
