@@ -1,0 +1,17 @@
+language: minimal
+
+os:
+  - linux
+  - osx
+
+before_script:
+  - opam init -a
+  - eval $(opam env)
+  - opam install dune odoc -y
+
+script:
+  - dune build @install
+  - dune build @runtest
+  - dune build @doc
+  - dune install
+  - dune exec examples/fast_two_sum.exe
