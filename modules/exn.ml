@@ -22,3 +22,16 @@ let rec expansion_sum e f =
   match f with
   | h::t -> expansion_sum (grow_expansion e h) t
   | []   -> e
+
+let fast_expansion_sum e f =
+  let rec exn acc q g =
+    match g with
+    | h::t -> let eft = Eft.two_sum q h in exn (eft.low::acc) eft.high t
+    | []   -> match acc with [] -> [q] | _ -> q::acc
+  in
+  let g = List.merge (fun x y -> Float.compare x y) e f in
+  match List.length g with
+  | 0 | 1 -> g
+  | _ ->
+    let eft = Eft.fast_two_sum (List.nth g 1) (List.nth g 0) in
+    exn [eft.low] eft.high (List.tl (List.tl g))
