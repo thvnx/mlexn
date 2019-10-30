@@ -17,3 +17,8 @@ let rec grow_expansion ?acc:(acc = []) e b =
   match e with
   | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.low::acc) t q.high
   | []   -> match acc with [] -> [b] | _ -> b::acc
+
+let rec expansion_sum e f =
+  match f with
+  | h::t -> expansion_sum (grow_expansion e h) t
+  | []   -> e
