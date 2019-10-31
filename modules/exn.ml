@@ -90,3 +90,11 @@ let compress e =
   let e = traversal (List.hd e) ((List.tl e)) in
   let e = List.rev e in
   traversal (List.hd e) ((List.tl e))
+
+let print_expansion ?endline:(endline = true) ?sep:(sep = " ") e =
+  let rec print e =
+    match e with
+    | h::t -> Printf.printf "%h%s" h (match t with [] -> "" | _ -> sep); print t
+    | []   -> match endline with true -> Printf.printf "\n" | false -> ()
+  in
+  print e

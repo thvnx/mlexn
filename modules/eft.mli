@@ -22,3 +22,4 @@ val fast_two_sum : ?wa:bool -> float -> float -> error_free_float
 val two_sum : ?wa:bool -> float -> float -> error_free_float
 val split : ?wa:bool -> float -> error_free_float
 val two_product : ?wa:bool -> float -> float -> error_free_float
+val print_error_free_float : ?endline:bool -> ?sep:string -> error_free_float -> unit

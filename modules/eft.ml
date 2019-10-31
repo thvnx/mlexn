@@ -88,3 +88,6 @@ let two_product ?wa:(wa = false) op1 op2 =
     check_fpclass op1;
     check_fpclass op2;
     eft op1 op2
+
+let print_error_free_float ?endline:(endline = true) ?sep:(sep = " ") e =
+  Printf.printf "%h%s%h%s" e.high sep e.low (match endline with true -> "\n" | false -> "")
