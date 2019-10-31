@@ -13,7 +13,6 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
-
 type error_free_float = {high : float; low : float}
 
 let to_float e = e.high

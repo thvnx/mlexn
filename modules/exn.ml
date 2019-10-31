@@ -16,12 +16,12 @@
 type expansion = float list
 
 let of_float f = [f]
-let to_float e = List.hd e
+let to_float e = List.hd (List.rev e)
 
 let rec grow_expansion ?acc:(acc = []) e b =
   match e with
   | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.low::acc) t q.high
-  | []   -> match acc with [] -> [b] | _ -> b::acc
+  | []   -> match acc with [] -> [b] | _ -> List.rev (b::acc)
 
 let rec expansion_sum e f =
   match f with
@@ -39,7 +39,7 @@ let fast_expansion_sum e f =
   | 0 | 1 -> g
   | _ ->
     let eft = Eft.fast_two_sum (List.nth g 1) (List.nth g 0) in
-    exn [eft.low] eft.high (List.tl (List.tl g))
+    List.rev (exn [eft.low] eft.high (List.tl (List.tl g)))
 
 let scale_expansion e b =
   let rec exn acc q e b =
@@ -54,11 +54,13 @@ let scale_expansion e b =
   match e with
   | h::t ->
     let eft = Eft.two_product h b in
-    exn [eft.low] eft.high t b
+    List.rev (exn [eft.low] eft.high t b)
   | []   -> []
 
 let zero_elimination e =
-  List.filter (fun x -> x <> 0.) e
+  match List.filter (fun x -> x <> 0.) e with
+  | [] -> [0.]
+  | f  -> f
 
 let expansion_product e f =
   let rec exn ?acc:(acc = []) e f =
@@ -94,10 +96,10 @@ let compress e =
   let e = List.rev e in
   traversal (List.hd e) ((List.tl e))
 
-let print_expansion ?endline:(endline = true) ?sep:(sep = " ") e =
+let print_expansion ?ze:(ze = true) ?endl:(endl = true) ?sep:(sep = " ") e =
   let rec print e =
     match e with
     | h::t -> Printf.printf "%h%s" h (match t with [] -> "" | _ -> sep); print t
-    | []   -> match endline with true -> Printf.printf "\n" | false -> ()
+    | []   -> match endl with true -> Printf.printf "\n" | false -> ()
   in
-  print e
+  print (List.rev (match ze with true -> zero_elimination e | false -> e))
