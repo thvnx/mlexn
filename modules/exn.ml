@@ -46,5 +46,8 @@ let scale_expansion e b =
       exn (fts.low::ts.low::acc) fts.high t b
     | []   -> match acc with [] -> [q] | _ -> q::acc
   in
-  let eft = Eft.two_product (List.hd e) b in
-  exn [eft.low] eft.high (List.tl e ) b
+  match e with
+  | h::t ->
+    let eft = Eft.two_product h b in
+    exn [eft.low] eft.high t b
+  | []   -> []
