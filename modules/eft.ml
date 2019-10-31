@@ -57,3 +57,17 @@ let two_sum ?wa:(wa = false) op1 op2 =
     check_fpclass op1;
     check_fpclass op2;
     eft op1 op2
+
+let split ?wa:(wa = false) op =
+  let eft a =
+    let c = 134217729. *. a in
+    let a_big = c -. a in
+    let a_hi = c -. a_big in
+    let a_lo = a -. a_hi in
+    { high = a_hi; low = a_lo }
+  in
+  match wa with
+  | false -> eft op
+  | true  ->
+    check_fpclass op;
+    eft op
