@@ -74,3 +74,17 @@ let expansion_product e f =
     | _ -> distillation (step g)
   in
   distillation (exn e f)
+
+let compress e =
+  let rec traversal ?acc:(acc = []) q e =
+    match e with
+    | h::t ->
+      let eft = Eft.fast_two_sum q h in
+      if eft.low <> 0. then traversal ~acc:(eft.high::acc) eft.low t
+      else traversal ~acc:acc eft.high t
+    | [] -> match acc with [] -> [q] | _ -> q::acc
+  in
+  let e = List.rev e in
+  let e = traversal (List.hd e) ((List.tl e)) in
+  let e = List.rev e in
+  traversal (List.hd e) ((List.tl e))
