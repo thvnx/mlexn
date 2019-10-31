@@ -35,3 +35,16 @@ let fast_expansion_sum e f =
   | _ ->
     let eft = Eft.fast_two_sum (List.nth g 1) (List.nth g 0) in
     exn [eft.low] eft.high (List.tl (List.tl g))
+
+let scale_expansion e b =
+  let rec exn acc q e b =
+    match e with
+    | h::t ->
+      let tp = Eft.two_product h b in
+      let ts = Eft.two_sum q tp.low in
+      let fts = Eft.fast_two_sum tp.high ts.high in
+      exn (fts.low::ts.low::acc) fts.high t b
+    | []   -> match acc with [] -> [q] | _ -> q::acc
+  in
+  let eft = Eft.two_product (List.hd e) b in
+  exn [eft.low] eft.high (List.tl e ) b
