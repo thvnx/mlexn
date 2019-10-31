@@ -51,3 +51,26 @@ let scale_expansion e b =
     let eft = Eft.two_product h b in
     exn [eft.low] eft.high t b
   | []   -> []
+
+let zero_elimination e =
+  List.filter (fun x -> x <> 0.) e
+
+let expansion_product e f =
+  let rec exn ?acc:(acc = []) e f =
+    match f with
+    | h::t -> exn ~acc:((zero_elimination (scale_expansion e h))::acc) e t
+    | []   -> acc
+  in
+  let rec step ?acc:(acc = []) g =
+    match g with
+    | h1::h2::t -> step ~acc:((fast_expansion_sum h1 h2)::acc) t
+    | h::[]     -> h::acc
+    | []        -> acc
+  in
+  let rec distillation g =
+    match List.length g with
+    | 0 -> []
+    | 1 -> List.hd g
+    | _ -> distillation (step g)
+  in
+  distillation (exn e f)
