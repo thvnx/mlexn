@@ -71,3 +71,21 @@ let split ?wa:(wa = false) op =
   | true  ->
     check_fpclass op;
     eft op
+
+let two_product ?wa:(wa = false) op1 op2 =
+  let eft a b =
+    let x = a *. b in
+    let sa = split a in
+    let sb = split b in
+    let err1 = x -. (sa.high *. sb.high) in
+    let err2 = err1 -. (sa.low *. sb.high) in
+    let err3 = err2 -. (sa.high *. sb.low) in
+    let y = (sa.low *. sb.low) -. err3 in
+    { high = x; low = y }
+  in
+  match wa with
+  | false -> eft op1 op2
+  | true  ->
+    check_fpclass op1;
+    check_fpclass op2;
+    eft op1 op2
