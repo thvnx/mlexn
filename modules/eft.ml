@@ -15,7 +15,7 @@
 
 
 (** Return value of an error-free transformation (EFT). *)
-type error_free_float = { high : float; low : float }
+type error_free_float = {high : float; low : float}
 
 
 let check_fpclass f =
@@ -30,7 +30,7 @@ let fast_two_sum ?wa:(wa = false) op1 op2 =
   let eft a b =
     let sum = a +. b in
     let err = b -. (sum -. a) in
-    { high = sum; low = err }
+    {high = sum; low = err}
   in
   match wa with
   | false -> eft op1 op2
@@ -49,7 +49,7 @@ let two_sum ?wa:(wa = false) op1 op2 =
     let e1 = b -. t1 in
     let e2 = a -. t2 in
     let err = e2 +. e1 in
-    { high = sum; low = err }
+    {high = sum; low = err}
   in
   match wa with
   | false -> eft op1 op2
@@ -64,7 +64,7 @@ let split ?wa:(wa = false) op =
     let a_big = c -. a in
     let a_hi = c -. a_big in
     let a_lo = a -. a_hi in
-    { high = a_hi; low = a_lo }
+    {high = a_hi; low = a_lo}
   in
   match wa with
   | false -> eft op
@@ -81,7 +81,7 @@ let two_product ?wa:(wa = false) op1 op2 =
     let err2 = err1 -. (sa.low *. sb.high) in
     let err3 = err2 -. (sa.high *. sb.low) in
     let y = (sa.low *. sb.low) -. err3 in
-    { high = x; low = y }
+    {high = x; low = y}
   in
   match wa with
   | false -> eft op1 op2
