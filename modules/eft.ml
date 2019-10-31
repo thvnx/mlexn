@@ -14,7 +14,6 @@
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
 
-(** Return value of an error-free transformation (EFT). *)
 type error_free_float = {high : float; low : float}
 
 

@@ -13,6 +13,8 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+type expansion = float list
+
 let rec grow_expansion ?acc:(acc = []) e b =
   match e with
   | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.low::acc) t q.high
