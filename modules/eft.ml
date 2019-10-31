@@ -16,6 +16,7 @@
 
 type error_free_float = {high : float; low : float}
 
+let to_float e = e.high
 
 let check_fpclass f =
   match classify_float f with

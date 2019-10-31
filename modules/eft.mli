@@ -17,6 +17,8 @@
 (** Return value of an error-free transformation (EFT). *)
 type error_free_float = {high : float; low : float}
 
+val to_float : error_free_float -> float
+
 val check_fpclass : float -> unit
 val fast_two_sum : ?wa:bool -> float -> float -> error_free_float
 val two_sum : ?wa:bool -> float -> float -> error_free_float

@@ -15,6 +15,9 @@
 
 type expansion = float list
 
+val of_float : float -> expansion
+val to_float : expansion -> float
+
 val grow_expansion : ?acc:expansion -> expansion -> float -> expansion
 val expansion_sum : expansion -> expansion -> expansion
 val fast_expansion_sum : expansion -> expansion -> expansion

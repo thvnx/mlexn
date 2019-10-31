@@ -15,6 +15,9 @@
 
 type expansion = float list
 
+let of_float f = [f]
+let to_float e = List.hd e
+
 let rec grow_expansion ?acc:(acc = []) e b =
   match e with
   | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.low::acc) t q.high
