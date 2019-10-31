@@ -14,5 +14,5 @@
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
 let _ =
-  let r = Eft.fast_two_sum 10. 2. in
-  Printf.printf "%e -- %e\n" r.high r.low
+  let r = Eft.fast_two_sum 1.e-12 1.e-23 in
+  Eft.print_error_free_float r
