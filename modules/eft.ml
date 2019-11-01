@@ -15,7 +15,7 @@
 
 type error_free_transformation = { hi : float; lo : float }
 
-let to_float e = e.hi
+let to_float e = e.hi +. e.lo
 
 let check_fpclass f =
   match classify_float f with
