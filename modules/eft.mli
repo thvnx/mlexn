@@ -13,15 +13,16 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Error-free transformation type ({!type:error_free_transformation})
+    reprensents a nonoverlapping expansion of length 2 such as: {e a op b = hi +
+    lo}, for summation and product {e op}. *)
+type error_free_transformation = { hi : float; lo : float }
 
-(** Return value of an error-free transformation (EFT). *)
-type error_free_float = {high : float; low : float}
-
-val to_float : error_free_float -> float
+val to_float : error_free_transformation -> float
 
 val check_fpclass : float -> unit
-val fast_two_sum : ?wa:bool -> float -> float -> error_free_float
-val two_sum : ?wa:bool -> float -> float -> error_free_float
-val split : ?wa:bool -> float -> error_free_float
-val two_product : ?wa:bool -> float -> float -> error_free_float
-val print_error_free_float : ?endline:bool -> ?sep:string -> error_free_float -> unit
+val fast_two_sum : ?wa:bool -> float -> float -> error_free_transformation
+val two_sum : ?wa:bool -> float -> float -> error_free_transformation
+val split : ?wa:bool -> float -> error_free_transformation
+val two_product : ?wa:bool -> float -> float -> error_free_transformation
+val print_error_free_transformation : ?endline:bool -> ?sep:string -> error_free_transformation -> unit

@@ -17,7 +17,7 @@ type expansion = float list
 
 let rec grow_expansion ?acc:(acc = []) e b =
   match e with
-  | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.low::acc) t q.high
+  | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.lo::acc) t q.hi
   | []   -> match acc with [] -> [b] | _ -> List.rev (b::acc)
 
 let rec expansion_sum e f =
@@ -28,7 +28,7 @@ let rec expansion_sum e f =
 let fast_expansion_sum e f =
   let rec exn acc q g =
     match g with
-    | h::t -> let eft = Eft.two_sum q h in exn (eft.low::acc) eft.high t
+    | h::t -> let eft = Eft.two_sum q h in exn (eft.lo::acc) eft.hi t
     | []   -> match acc with [] -> [q] | _ -> q::acc
   in
   let g = List.merge (fun x y -> Float.compare x y) e f in
@@ -36,22 +36,22 @@ let fast_expansion_sum e f =
   | 0 | 1 -> g
   | _ ->
     let eft = Eft.fast_two_sum (List.nth g 1) (List.nth g 0) in
-    List.rev (exn [eft.low] eft.high (List.tl (List.tl g)))
+    List.rev (exn [eft.lo] eft.hi (List.tl (List.tl g)))
 
 let scale_expansion e b =
   let rec exn acc q e b =
     match e with
     | h::t ->
       let tp = Eft.two_product h b in
-      let ts = Eft.two_sum q tp.low in
-      let fts = Eft.fast_two_sum tp.high ts.high in
-      exn (fts.low::ts.low::acc) fts.high t b
+      let ts = Eft.two_sum q tp.lo in
+      let fts = Eft.fast_two_sum tp.hi ts.hi in
+      exn (fts.lo::ts.lo::acc) fts.hi t b
     | []   -> match acc with [] -> [q] | _ -> q::acc
   in
   match e with
   | h::t ->
     let eft = Eft.two_product h b in
-    List.rev (exn [eft.low] eft.high t b)
+    List.rev (exn [eft.lo] eft.hi t b)
   | []   -> []
 
 let zero_elimination e =
@@ -84,8 +84,8 @@ let compress e =
     match e with
     | h::t ->
       let eft = Eft.fast_two_sum q h in
-      if eft.low <> 0. then traversal ~acc:(eft.high::acc) eft.low t
-      else traversal ~acc:acc eft.high t
+      if eft.lo <> 0. then traversal ~acc:(eft.hi::acc) eft.lo t
+      else traversal ~acc:acc eft.hi t
     | [] -> match acc with [] -> [q] | _ -> q::acc
   in
   let e = List.rev e in

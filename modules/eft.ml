@@ -13,9 +13,9 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
-type error_free_float = {high : float; low : float}
+type error_free_transformation = { hi : float; lo : float }
 
-let to_float e = e.high
+let to_float e = e.hi
 
 let check_fpclass f =
   match classify_float f with
@@ -27,9 +27,9 @@ let check_fpclass f =
 
 let fast_two_sum ?wa:(wa = false) op1 op2 =
   let eft a b =
-    let sum = a +. b in
-    let err = b -. (sum -. a) in
-    {high = sum; low = err}
+    let x = a +. b in
+    let y = b -. (x -. a) in
+    {hi = x; lo = y}
   in
   match wa with
   | false -> eft op1 op2
@@ -42,13 +42,13 @@ let fast_two_sum ?wa:(wa = false) op1 op2 =
 
 let two_sum ?wa:(wa = false) op1 op2 =
   let eft a b =
-    let sum = a +. b in
-    let t1 = sum -. a in
-    let t2 = sum -. t1 in
+    let x = a +. b in
+    let t1 = x -. a in
+    let t2 = x -. t1 in
     let e1 = b -. t1 in
     let e2 = a -. t2 in
-    let err = e2 +. e1 in
-    {high = sum; low = err}
+    let y = e2 +. e1 in
+    {hi = x; lo = y}
   in
   match wa with
   | false -> eft op1 op2
@@ -63,7 +63,7 @@ let split ?wa:(wa = false) op =
     let a_big = c -. a in
     let a_hi = c -. a_big in
     let a_lo = a -. a_hi in
-    {high = a_hi; low = a_lo}
+    {hi = a_hi; lo = a_lo}
   in
   match wa with
   | false -> eft op
@@ -76,11 +76,11 @@ let two_product ?wa:(wa = false) op1 op2 =
     let x = a *. b in
     let sa = split a in
     let sb = split b in
-    let err1 = x -. (sa.high *. sb.high) in
-    let err2 = err1 -. (sa.low *. sb.high) in
-    let err3 = err2 -. (sa.high *. sb.low) in
-    let y = (sa.low *. sb.low) -. err3 in
-    {high = x; low = y}
+    let err1 = x -. (sa.hi *. sb.hi) in
+    let err2 = err1 -. (sa.lo *. sb.hi) in
+    let err3 = err2 -. (sa.hi *. sb.lo) in
+    let y = (sa.lo *. sb.lo) -. err3 in
+    {hi = x; lo = y}
   in
   match wa with
   | false -> eft op1 op2
@@ -89,5 +89,5 @@ let two_product ?wa:(wa = false) op1 op2 =
     check_fpclass op2;
     eft op1 op2
 
-let print_error_free_float ?endline:(endline = true) ?sep:(sep = " ") e =
-  Printf.printf "%h%s%h%s" e.high sep e.low (match endline with true -> "\n" | false -> "")
+let print_error_free_transformation ?endline:(endline = true) ?sep:(sep = " ") e =
+  Printf.printf "%h%s%h%s" e.hi sep e.lo (match endline with true -> "\n" | false -> "")
