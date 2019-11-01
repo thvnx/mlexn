@@ -15,4 +15,4 @@
 
 let _ =
   let r = Eft.fast_two_sum 1.e-12 1.e-23 in
-  Eft.print_error_free_float r
+  Eft.print_error_free_transformation r
