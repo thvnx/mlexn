@@ -51,5 +51,5 @@ let _ =
   List.iter (fun x ->
       let h = (horner p x) in
       let e = (exn_horner p x) in
-      Printf.printf "%h %h %h %s\n" x h (Exn.to_float e) (Exn.string_expansion ~sep:"::" e);
+      Printf.printf "%h %h %h %s\n" x h (Exn.to_float e) (Exn.to_string ~sep:"::" e);
     ) data

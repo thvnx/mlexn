@@ -96,15 +96,7 @@ let compress e =
 let of_float f = [f]
 let to_float e = List.hd (List.rev (compress e))
 
-let print_expansion ?comp:(comp = true) ?endl:(endl = true) ?sep:(sep = " ") e =
-  let rec print e =
-    match e with
-    | h::t -> Printf.printf "%h%s" h (match t with [] -> "" | _ -> sep); print t
-    | []   -> match endl with true -> Printf.printf "\n" | false -> ()
-  in
-  print (List.rev (match comp with true -> compress e | false -> e))
-
-let string_expansion ?comp:(comp = true) ?sep:(sep = " ") e =
+let to_string ?comp:(comp = true) ?sep:(sep = " ") e =
   let rec print ?acc:(acc = "") e =
     match e with
     | h::t -> print ~acc:(Printf.sprintf "%s%h%s" acc h (match t with [] -> "" | _ -> sep)) t

@@ -17,6 +17,7 @@ type expansion = float list
 
 val of_float : float -> expansion
 val to_float : expansion -> float
+val to_string : ?comp:bool -> ?sep:string -> expansion -> string
 
 val grow_expansion : ?acc:expansion -> expansion -> float -> expansion
 val expansion_sum : expansion -> expansion -> expansion
@@ -25,5 +26,3 @@ val scale_expansion : expansion -> float -> expansion
 val zero_elimination : expansion -> expansion
 val expansion_product : expansion -> expansion -> expansion
 val compress : expansion -> expansion
-val print_expansion : ?comp:bool -> ?endl:bool -> ?sep:string -> expansion -> unit
-val string_expansion : ?comp:bool -> ?sep:string -> expansion -> string
