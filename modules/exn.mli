@@ -15,14 +15,21 @@
 
 type expansion = float list
 
+(** {2 Conversion functions} *)
+
 val of_float : float -> expansion
 val to_float : expansion -> float
 val to_string : ?comp:bool -> ?sep:string -> expansion -> string
+
+(** {2 Expansions} *)
 
 val grow_expansion : ?acc:expansion -> expansion -> float -> expansion
 val expansion_sum : expansion -> expansion -> expansion
 val fast_expansion_sum : expansion -> expansion -> expansion
 val scale_expansion : expansion -> float -> expansion
-val zero_elimination : expansion -> expansion
 val expansion_product : expansion -> expansion -> expansion
+
+(** {2 Cleanup functions} *)
+
+val zero_elimination : expansion -> expansion
 val compress : expansion -> expansion

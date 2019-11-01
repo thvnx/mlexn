@@ -18,12 +18,16 @@
     {e a op b = hi + lo}, for summation and product {e op}s. *)
 type error_free_transformation = { hi : float; lo : float }
 
+(** {2 Conversion functions} *)
+
 (** Convert an {!type:error_free_transformation}  back to a float. *)
 val to_float : error_free_transformation -> float
 
 (** Convert an {!type:error_free_transformation} to a string. Default members
     separator [sep] is [" "]. *)
 val to_string : ?sep:string -> error_free_transformation -> string
+
+(** {2 Error-free transformations} *)
 
 (** Let {e a} and {e b} be float numbers such that {e |a| >= |b|}. Then
     [fast_two_sum a b] will produce a nonoverlapping expansion
