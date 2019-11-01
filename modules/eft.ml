@@ -43,11 +43,11 @@ let fast_two_sum ?wa:(wa = false) op1 op2 =
 let two_sum ?wa:(wa = false) op1 op2 =
   let eft a b =
     let x = a +. b in
-    let t1 = x -. a in
-    let t2 = x -. t1 in
-    let e1 = b -. t1 in
-    let e2 = a -. t2 in
-    let y = e2 +. e1 in
+    let b_virtual = x -. a in
+    let a_virtual = x -. b_virtual in
+    let b_roundoff = b -. b_virtual in
+    let a_roundoff = a -. a_virtual in
+    let y = a_roundoff +. b_roundoff in
     {hi = x; lo = y}
   in
   match wa with
@@ -74,12 +74,12 @@ let split ?wa:(wa = false) op =
 let two_product ?wa:(wa = false) op1 op2 =
   let eft a b =
     let x = a *. b in
-    let sa = split a in
-    let sb = split b in
-    let err1 = x -. (sa.hi *. sb.hi) in
-    let err2 = err1 -. (sa.lo *. sb.hi) in
-    let err3 = err2 -. (sa.hi *. sb.lo) in
-    let y = (sa.lo *. sb.lo) -. err3 in
+    let a = split a in
+    let b = split b in
+    let err1 = x -. (a.hi *. b.hi) in
+    let err2 = err1 -. (a.lo *. b.hi) in
+    let err3 = err2 -. (a.hi *. b.lo) in
+    let y = (a.lo *. b.lo) -. err3 in
     {hi = x; lo = y}
   in
   match wa with
@@ -89,5 +89,5 @@ let two_product ?wa:(wa = false) op1 op2 =
     check_fpclass op2;
     eft op1 op2
 
-let print_error_free_transformation ?endline:(endline = true) ?sep:(sep = " ") e =
-  Printf.printf "%h%s%h%s" e.hi sep e.lo (match endline with true -> "\n" | false -> "")
+let to_string ?sep:(sep = " ") e =
+  Printf.sprintf "%h%s%h" e.hi sep e.lo

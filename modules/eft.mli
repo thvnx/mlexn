@@ -14,15 +14,44 @@
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
 (** Error-free transformation type ({!type:error_free_transformation})
-    reprensents a nonoverlapping expansion of length 2 such as: {e a op b = hi +
-    lo}, for summation and product {e op}. *)
+    reprensents a nonoverlapping expansion of length 2 such as:
+    {e a op b = hi + lo}, for summation and product {e op}s. *)
 type error_free_transformation = { hi : float; lo : float }
 
+(** Convert an {!type:error_free_transformation}  back to a float. *)
 val to_float : error_free_transformation -> float
 
-val check_fpclass : float -> unit
+(** Convert an {!type:error_free_transformation} to a string. Default members
+    separator [sep] is [" "]. *)
+val to_string : ?sep:string -> error_free_transformation -> string
+
+(** Let {e a} and {e b} be float numbers such that {e |a| >= |b|}. Then
+    [fast_two_sum a b] will produce a nonoverlapping expansion
+    ([{ hi = x; lo = y}]) such that {e a + b = x + y}, where {e x} is an
+    approximation to {e a + b} and {e y} represents the roundoff error in the
+    calculation of {e x}. [wa] stands for {i with assertions} and is [false]
+    by default. *)
 val fast_two_sum : ?wa:bool -> float -> float -> error_free_transformation
+
+(** Let {e a} and {e b} be float numbers. Then [two_sum a b] will produce a
+    nonoverlapping expansion ([{ hi = x; lo = y}]) such that {e a + b = x + y},
+    where {e x} is an approximation to {e a + b} and {e y} represents the
+    roundoff error in the calculation of {e x}. [wa] stands for
+    {i with assertions} and is [false] by default. *)
 val two_sum : ?wa:bool -> float -> float -> error_free_transformation
+
+(** Let {e a} be a float number. Then [split a] will produce a value {e a_hi}
+    and a nonoverlapping value {e a_lo} ([{ hi = a_hi; lo = a_lo}]) such that
+    {e |a_hi| >= |a_lo|} and {e a = a_hi + a_lo}. [wa] stands for
+    {i with assertions} and is [false] by default. *)
 val split : ?wa:bool -> float -> error_free_transformation
+
+(** Let {e a} and {e b} be float numbers. Then [two_product a b] will produce a
+    nonoverlapping expansion ([{ hi = x; lo = y}]) such that {e ab = x+y}, where
+    {e x} is an approximation to {e ab} and {e y} represents the roundoff error
+    in the calculation of {e x}. [wa] stands for    {i with assertions} and is
+    [false] by default.*)
 val two_product : ?wa:bool -> float -> float -> error_free_transformation
-val print_error_free_transformation : ?endline:bool -> ?sep:string -> error_free_transformation -> unit
+
+(**/**)
+val check_fpclass : float -> unit
