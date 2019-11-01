@@ -4,6 +4,22 @@
 
 OCaml implementation for floating-point expansions.
 
+_mlexn_ provides two modules, `Eft` implementing error-free transformations, and
+`Exn` implementing expansions as introduced in:
+
+> Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates
+> Richard Shewchuk, J. Discrete Comput Geom (1997) 18: 305. https://doi.org/10.1007/PL00009321
+
+## documentation
+
+Documentation can be generated thanks to package _odoc_:
+
+```bash
+dune build @doc
+```
+
+then, see `_build/default/_doc/_html/index.html`.
+
 ## usage
 
 ### Horner's polynomial evaluation example
