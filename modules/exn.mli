@@ -25,4 +25,5 @@ val scale_expansion : expansion -> float -> expansion
 val zero_elimination : expansion -> expansion
 val expansion_product : expansion -> expansion -> expansion
 val compress : expansion -> expansion
-val print_expansion : ?ze:bool -> ?endl:bool -> ?sep:string -> expansion -> unit
+val print_expansion : ?comp:bool -> ?endl:bool -> ?sep:string -> expansion -> unit
+val string_expansion : ?comp:bool -> ?sep:string -> expansion -> string
