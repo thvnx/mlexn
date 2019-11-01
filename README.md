@@ -10,7 +10,7 @@ OCaml implementation for floating-point expansions.
 
 Let `exn_horner` the expansion-based Horner's polynomial evaluation:
 
-```
+```ocaml
 let exn_horner p x =
   let rec eval a p x =
     let a = Exn.compress a in (* speeds up evaluation 300x *)
