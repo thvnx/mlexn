@@ -1,0 +1,5 @@
+(test
+ (deps (file horner.data))
+ (name horner)
+ (libraries mlexn)
+ (action (run %{test} horner.data)))

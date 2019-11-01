@@ -23,6 +23,7 @@ let horner p x =
 
 let exn_horner p x =
   let rec eval a p x =
+    let a = Exn.compress a in (* speeds up evaluation 300x *)
     match p with
     | h::t -> eval (Exn.grow_expansion (Exn.scale_expansion a x) h) t x
     | []   -> a
@@ -30,25 +31,25 @@ let exn_horner p x =
   eval (Exn.of_float (List.hd p)) (List.tl p) x
 
 let _ =
-  let p = [2.373046875000000e-01;
-           -4.192382812500000e+00;
-           3.467285156250000e+01;
-           -1.781982421875000e+02;
-           6.370019531250000e+02;
-           -1.679423828125000e+03;
-           3.378095703125000e+03;
-           -5.288271484375000e+03;
-           6.511538085937500e+03;
-           -6.327524414062500e+03;
-           4.836465820312500e+03;
-           -2.877295898437500e+03;
-           1.306113281250000e+03;
-           -4.373437500000000e+02;
-           1.018750000000000e+02;
-           -1.475000000000000e+01;
-           1.000000000000000e+00] in
-  let x = 0.750001 in
-  Printf.printf "%h\n" (horner p x);
-  let r = (exn_horner p x) in
-  Exn.print_expansion ~ze:false r;
-  Exn.print_expansion (Exn.compress r)
+  let read_lines ch =
+    let data = ref [] in
+    try
+      while true; do
+        data := Float.of_string (input_line ch) :: !data
+      done; !data
+    with End_of_file ->
+      close_in ch;
+      List.rev !data
+  in
+  let p = [2.373046875e-1; -4.1923828125; 3.46728515625e1; -1.781982421875e2;
+           6.37001953125e2; -1.679423828125e3; 3.378095703125e3;
+           -5.288271484375e3; 6.5115380859375e3; -6.3275244140625e3;
+           4.8364658203125e3; -2.8772958984375e3; 1.30611328125e3; -4.3734375e2;
+           1.01875e2; -1.475e1; 1.] in
+  let chan = open_in Sys.argv.(1) in
+  let data = read_lines chan in
+  List.iter (fun x ->
+      let h = (horner p x) in
+      let e = (exn_horner p x) in
+      Printf.printf "%h %h %h %s\n" x h (Exn.to_float e) (Exn.string_expansion ~sep:"::" e);
+    ) data
