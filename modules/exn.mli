@@ -33,13 +33,27 @@ val to_string : ?comp:bool -> ?sep:string -> expansion -> string
 
 (** {2 Expansions} *)
 
+(** Add a single float to an expansion. *)
 val grow_expansion : expansion -> float -> expansion
+
+(** Add an expansion to another one. *)
 val expansion_sum : expansion -> expansion -> expansion
+
+(** Add an expansion to another one. May be faster. *)
 val fast_expansion_sum : expansion -> expansion -> expansion
+
+(** Multiply an expansion by a float value. *)
 val scale_expansion : expansion -> float -> expansion
+
+(** Multiply two expansions. [expansion_product] uses {!val:scale_expansion} and
+    a distillation tree. *)
 val expansion_product : expansion -> expansion -> expansion
 
 (** {2 Cleanup functions} *)
 
+(** Eliminate zeros from one expansion. *)
 val zero_elimination : expansion -> expansion
+
+(** Find a compact form for an expansion. It guarantees that the largest
+    component is a good approximation to the whole expansion. *)
 val compress : expansion -> expansion
