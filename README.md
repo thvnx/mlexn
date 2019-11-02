@@ -13,7 +13,13 @@ _mlexn_ provides six modules:
 > https://doi.org/10.1007/PL00009321
 
 - `Cxn` implementing complex expansions,
-- `Dwa` implementing double-word arithmetic,
+- `Dwa` implementing double-word arithmetic as summarized/improved in:
+
+> Tight and rigourous error bounds for basic building blocks of double-word
+> arithmetic - Mioara Joldes, Jean-Michel Muller, Valentina Popescu, ACM
+> Transactions on Mathematical Software, Association for Computing Machinery,
+> 2017, 44 (2), pp.1 - 27. https://doi.org/10.1145/3121432
+
 - `Twa` implementing triple-word arithmetic, and,
 - `Qwa` implementing quadruple-word arithmetic.
 
