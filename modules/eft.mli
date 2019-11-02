@@ -55,5 +55,13 @@ val split : ?wa:bool -> float -> error_free_transformation
     default. *)
 val two_product : ?wa:bool -> float -> float -> error_free_transformation
 
+(** Let {e a} and {e b} be float numbers. Then [two_product_fma a b] will
+    produce a nonoverlapping expansion ({e x + y}) such that {e ab = x + y},
+    where {e x} is an approximation to {e ab} and {e y} represents the roundoff
+    error in the calculation of {e x}. The roundoff error is computed with an fma
+    operation (faster than {!val:two_product} if hardware fma is available). [wa]
+    stands for {i with assertions} and is [false] by default. *)
+val two_product_fma : ?wa:bool -> float -> float -> error_free_transformation
+
 (**/**)
 val check_fpclass : float -> unit

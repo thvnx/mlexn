@@ -89,6 +89,19 @@ let two_product ?wa:(wa = false) op1 op2 =
     check_fpclass op2;
     eft op1 op2
 
+let two_product_fma ?wa:(wa = false) op1 op2 =
+  let eft a b =
+    let x = a *. b in
+    let y = Float.fma a b (~-. x) in
+    (x, y)
+  in
+  match wa with
+  | false -> eft op1 op2
+  | true  ->
+    check_fpclass op1;
+    check_fpclass op2;
+    eft op1 op2
+
 let to_string ?sep:(sep = " ") e =
   match e with
   (x, y) -> Printf.sprintf "%h%s%h" x sep y
