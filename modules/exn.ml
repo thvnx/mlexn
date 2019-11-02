@@ -118,3 +118,6 @@ let compare e f =
   match to_float (expansion_diff e f) with
   | 0. -> 0
   | f  -> if f > 0. then 1 else ~-1
+
+(* TODO expansion_division *)
+(* TODO expansion_sqrt *)
