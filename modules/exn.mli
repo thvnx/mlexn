@@ -13,17 +13,27 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Nonoverlapping expansion of float components sorted in order of {b
+    increasing} magnitude, except that any of the component may be zero. *)
 type expansion = float list
 
 (** {2 Conversion functions} *)
 
+(** Create an expansion of length one from a float. *)
 val of_float : float -> expansion
+
+(** Convert an expansion back to a float. The expansion is compressed,
+    see {!val:compress}, then the most significant component is returned. *)
 val to_float : expansion -> float
+
+(** Convert to a string with component separator [sep] (default is [" "]). By
+    default the expansion is [comp]ressed (see {!val:compress}). Components are
+    printed in order of {b decreasing} magnitude. *)
 val to_string : ?comp:bool -> ?sep:string -> expansion -> string
 
 (** {2 Expansions} *)
 
-val grow_expansion : ?acc:expansion -> expansion -> float -> expansion
+val grow_expansion : expansion -> float -> expansion
 val expansion_sum : expansion -> expansion -> expansion
 val fast_expansion_sum : expansion -> expansion -> expansion
 val scale_expansion : expansion -> float -> expansion

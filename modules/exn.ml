@@ -15,10 +15,13 @@
 
 type expansion = float list
 
-let rec grow_expansion ?acc:(acc = []) e b =
-  match e with
-  | h::t -> let q = Eft.two_sum b h in grow_expansion ~acc:(q.lo::acc) t q.hi
-  | []   -> match acc with [] -> [b] | _ -> List.rev (b::acc)
+let grow_expansion e b =
+  let rec exn ?acc:(acc = []) e b =
+    match e with
+    | h::t -> let q = Eft.two_sum b h in exn ~acc:(q.lo::acc) t q.hi
+    | []   -> match acc with [] -> [b] | _ -> List.rev (b::acc)
+  in
+  exn e b
 
 let rec expansion_sum e f =
   match f with
