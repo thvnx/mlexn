@@ -13,6 +13,13 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Algorithms for expansions come from:
+
+{v Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric
+Predicates - Richard Shewchuk, J. Discrete Comput Geom (1997) 18: 305. v}
+
+    see {{:https://doi.org/10.1007/PL00009321}https://doi.org/10.1007/PL00009321}. *)
+
 (** Nonoverlapping expansion of float components sorted in order of {b
     increasing} magnitude, except that any of the component may be zero. *)
 type expansion = float list
