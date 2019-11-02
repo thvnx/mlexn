@@ -1,4 +1,4 @@
 (library
  (public_name mlexn)
  (wrapped false)
- (modules eft exn cxn))
+ (modules eft exn cxn dwa twa qwa))
