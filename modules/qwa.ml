@@ -14,3 +14,10 @@
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
 type quadruple_word = float * float * float * float
+
+let of_float f = (f, 0., 0., 0.)
+let to_float w = match w with (m, n, o, p) -> m +. n +. o +. p
+
+let to_string ?sep:(sep = " ") w =
+  match w with (m, n, o, p) -> Printf.sprintf "%h%s%h%s%h%s%h"
+                                 m sep n sep o sep p

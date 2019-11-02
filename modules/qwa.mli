@@ -13,4 +13,19 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Nonoverlapping expansion of four float components sorted in order of {b
+    decreasing} magnitude, such as {e a op b = m + n + o + p}
+    ([(m, n, o, p)]). *)
 type quadruple_word = float * float * float * float
+
+(** {2 Conversion functions} *)
+
+(** Create a quadruple-word from a float. *)
+val of_float : float  -> quadruple_word
+
+(** Convert a quadruple-word back to a float. *)
+val to_float : quadruple_word -> float
+
+(** Convert to a string with component separator [sep] (default is [" "]).
+    Components are printed in order of {b decreasing} magnitude. *)
+val to_string : ?sep:string -> quadruple_word -> string
