@@ -14,3 +14,9 @@
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
 type double_word = float * float
+
+let of_float f = (f, 0.)
+let to_float w = match w with (x, y) -> x +. y
+
+let to_string ?sep:(sep = " ") w =
+  match w with (x, y) -> Printf.sprintf "%h%s%h" x sep y

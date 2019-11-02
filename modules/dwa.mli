@@ -13,4 +13,18 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Nonoverlapping expansion of two float components sorted in order of {b
+    decreasing} magnitude, such as {e a op b = x + y} ([(x, y)]). *)
 type double_word = float * float
+
+(** {2 Conversion functions} *)
+
+(** Create a double-word from a float. *)
+val of_float : float  -> double_word
+
+(** Convert a double-word back to a float. *)
+val to_float : double_word -> float
+
+(** Convert to a string with component separator [sep] (default is [" "]).
+    Components are printed in order of {b decreasing} magnitude. *)
+val to_string : ?sep:string -> double_word -> string
