@@ -13,4 +13,18 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Nonoverlapping expansion of three float components sorted in order of {b
+    decreasing} magnitude, such as {e a op b = x + y + z} ([(x, y, z)]). *)
 type triple_word = float * float * float
+
+(** {2 Conversion functions} *)
+
+(** Create a triple-word from a float. *)
+val of_float : float  -> triple_word
+
+(** Convert a triple-word back to a float. *)
+val to_float : triple_word -> float
+
+(** Convert to a string with component separator [sep] (default is [" "]).
+    Components are printed in order of {b decreasing} magnitude. *)
+val to_string : ?sep:string -> triple_word -> string

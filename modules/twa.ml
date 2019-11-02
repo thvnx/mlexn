@@ -14,3 +14,9 @@
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
 type triple_word = float * float * float
+
+let of_float f = (f, 0., 0.)
+let to_float w = match w with (x, y, z) -> x +. y +. z
+
+let to_string ?sep:(sep = " ") w =
+  match w with (x, y, z) -> Printf.sprintf "%h%s%h%s%h" x sep y sep z
