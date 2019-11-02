@@ -18,7 +18,7 @@ type expansion = float list
 let grow_expansion e b =
   let rec exn ?acc:(acc = []) e b =
     match e with
-    | h::t -> let q = Eft.two_sum b h in exn ~acc:(q.lo::acc) t q.hi
+    | h::t -> let (x, y) = Eft.two_sum b h in exn ~acc:(y::acc) t x
     | []   -> match acc with [] -> [b] | _ -> List.rev (b::acc)
   in
   exn e b
@@ -31,30 +31,30 @@ let rec expansion_sum e f =
 let fast_expansion_sum e f =
   let rec exn acc q g =
     match g with
-    | h::t -> let eft = Eft.two_sum q h in exn (eft.lo::acc) eft.hi t
+    | h::t -> let (x, y) = Eft.two_sum q h in exn (y::acc) x t
     | []   -> match acc with [] -> [q] | _ -> q::acc
   in
   let g = List.merge (fun x y -> Float.compare x y) e f in
   match List.length g with
   | 0 | 1 -> g
   | _ ->
-    let eft = Eft.fast_two_sum (List.nth g 1) (List.nth g 0) in
-    List.rev (exn [eft.lo] eft.hi (List.tl (List.tl g)))
+    let (x, y) = Eft.fast_two_sum (List.nth g 1) (List.nth g 0) in
+    List.rev (exn [y] x (List.tl (List.tl g)))
 
 let scale_expansion e b =
   let rec exn acc q e b =
     match e with
     | h::t ->
-      let tp = Eft.two_product h b in
-      let ts = Eft.two_sum q tp.lo in
-      let fts = Eft.fast_two_sum tp.hi ts.hi in
-      exn (fts.lo::ts.lo::acc) fts.hi t b
+      let (p_hi, p_lo) = Eft.two_product h b in
+      let (s_hi, s_lo) = Eft.two_sum q p_lo in
+      let (f_hi, f_lo) = Eft.fast_two_sum p_hi s_hi in
+      exn (f_lo::s_lo::acc) f_hi t b
     | []   -> match acc with [] -> [q] | _ -> q::acc
   in
   match e with
   | h::t ->
-    let eft = Eft.two_product h b in
-    List.rev (exn [eft.lo] eft.hi t b)
+    let (x, y) = Eft.two_product h b in
+    List.rev (exn [y] x t b)
   | []   -> []
 
 let zero_elimination e =
@@ -86,9 +86,9 @@ let compress e =
   let rec traversal ?acc:(acc = []) q e =
     match e with
     | h::t ->
-      let eft = Eft.fast_two_sum q h in
-      if eft.lo <> 0. then traversal ~acc:(eft.hi::acc) eft.lo t
-      else traversal ~acc:acc eft.hi t
+      let (x, y) = Eft.fast_two_sum q h in
+      if y <> 0. then traversal ~acc:(x::acc) y t
+      else traversal ~acc:acc x t
     | [] -> match acc with [] -> [q] | _ -> q::acc
   in
   let e = List.rev e in

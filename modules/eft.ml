@@ -13,9 +13,9 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
-type error_free_transformation = { hi : float; lo : float }
+type error_free_transformation = float * float
 
-let to_float e = e.hi +. e.lo
+let to_float e = match e with (x, y) -> x +. y
 
 let check_fpclass f =
   match classify_float f with
@@ -29,7 +29,7 @@ let fast_two_sum ?wa:(wa = false) op1 op2 =
   let eft a b =
     let x = a +. b in
     let y = b -. (x -. a) in
-    {hi = x; lo = y}
+    (x, y)
   in
   match wa with
   | false -> eft op1 op2
@@ -48,7 +48,7 @@ let two_sum ?wa:(wa = false) op1 op2 =
     let b_roundoff = b -. b_virtual in
     let a_roundoff = a -. a_virtual in
     let y = a_roundoff +. b_roundoff in
-    {hi = x; lo = y}
+    (x, y)
   in
   match wa with
   | false -> eft op1 op2
@@ -63,7 +63,7 @@ let split ?wa:(wa = false) op =
     let a_big = c -. a in
     let a_hi = c -. a_big in
     let a_lo = a -. a_hi in
-    {hi = a_hi; lo = a_lo}
+    (a_hi, a_lo)
   in
   match wa with
   | false -> eft op
@@ -74,13 +74,13 @@ let split ?wa:(wa = false) op =
 let two_product ?wa:(wa = false) op1 op2 =
   let eft a b =
     let x = a *. b in
-    let a = split a in
-    let b = split b in
-    let err1 = x -. (a.hi *. b.hi) in
-    let err2 = err1 -. (a.lo *. b.hi) in
-    let err3 = err2 -. (a.hi *. b.lo) in
-    let y = (a.lo *. b.lo) -. err3 in
-    {hi = x; lo = y}
+    let (a_hi, a_lo) = split a in
+    let (b_hi, b_lo) = split b in
+    let err1 = x -. (a_hi *. b_hi) in
+    let err2 = err1 -. (a_lo *. b_hi) in
+    let err3 = err2 -. (a_hi *. b_lo) in
+    let y = (a_lo *. b_lo) -. err3 in
+    (x, y)
   in
   match wa with
   | false -> eft op1 op2
@@ -90,4 +90,5 @@ let two_product ?wa:(wa = false) op1 op2 =
     eft op1 op2
 
 let to_string ?sep:(sep = " ") e =
-  Printf.sprintf "%h%s%h" e.hi sep e.lo
+  match e with
+  (x, y) -> Printf.sprintf "%h%s%h" x sep y
