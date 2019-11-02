@@ -15,6 +15,10 @@
 
 type cexpansion = { re : Exn.expansion; im : Exn.expansion }
 
+let of_complex (c : Complex.t) = { re = Exn.of_float c.re; im = Exn.of_float c.im }
+
+let to_complex e : Complex.t = { re = Exn.to_float e.re; im = Exn.to_float e.im }
+
 let grow_expansion e (b : Complex.t) =
   let r = Exn.grow_expansion e.re b.re in
   let i = Exn.grow_expansion e.im b.im in
@@ -23,4 +27,33 @@ let grow_expansion e (b : Complex.t) =
 let expansion_sum e f =
   let r = Exn.expansion_sum e.re f.re in
   let i = Exn.expansion_sum e.im f.im in
+  { re = r; im = i }
+
+let expansion_diff e f =
+  let r = Exn.expansion_diff e.re f.re in
+  let i = Exn.expansion_diff e.im f.im in
+  { re = r; im = i }
+
+let scale_expansion e (b : Complex.t) =
+  let r = Exn.expansion_diff (Exn.scale_expansion e.re b.re)
+      (Exn.scale_expansion e.im b.im) in
+  let i = Exn.expansion_sum (Exn.scale_expansion e.re b.im)
+      (Exn.scale_expansion e.im b.re) in
+  { re = r; im = i }
+
+let expansion_product e f =
+  let r = Exn.expansion_diff (Exn.expansion_product e.re f.re)
+      (Exn.expansion_product e.im f.im) in
+  let i = Exn.expansion_sum (Exn.expansion_product e.re f.im)
+      (Exn.expansion_product e.im f.re) in
+  { re = r; im = i }
+
+let zero_elimination e =
+  let r = Exn.zero_elimination e.re in
+  let i = Exn.zero_elimination e.im in
+  { re = r; im = i }
+
+let compress e =
+  let r = Exn.compress e.re in
+  let i = Exn.compress e.im in
   { re = r; im = i }

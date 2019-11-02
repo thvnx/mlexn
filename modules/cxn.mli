@@ -18,5 +18,36 @@
     may be zero. *)
 type cexpansion = { re : Exn.expansion; im : Exn.expansion }
 
+(** {2 Conversion functions} *)
+
+(** Create an expansion of length one from a complex. *)
+val of_complex : Complex.t -> cexpansion
+
+(** Convert an expansion back to a complex. The expansion parts are compressed,
+    see {!val:compress}, then the most significant component is returned. *)
+val to_complex : cexpansion -> Complex.t
+
+(** {2 Complex expansions} *)
+
+(** Add a single complex to an expansion. *)
 val grow_expansion : cexpansion -> Complex.t -> cexpansion
+
+(** Add an expansion to another one. *)
 val expansion_sum : cexpansion -> cexpansion -> cexpansion
+
+(** [expansion_diff x y] subtracts [y] to [x]. *)
+val expansion_diff : cexpansion -> cexpansion -> cexpansion
+
+(** Multiply an expansion by a complex value. *)
+val scale_expansion : cexpansion -> Complex.t -> cexpansion
+
+(** Multiply two expansions. *)
+val expansion_product : cexpansion -> cexpansion -> cexpansion
+
+(** {2 Cleanup fonctions} *)
+
+(** Eliminate zeros (see {!val:Exn.zero_elimination}). *)
+val zero_elimination : cexpansion -> cexpansion
+
+(** Find a compact form for an expansion (see {!val:Exn.compress}). *)
+val compress : cexpansion -> cexpansion
