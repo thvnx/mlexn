@@ -29,38 +29,38 @@ val to_string : ?sep:string -> error_free_transformation -> string
 
 (** {2 Error-free transformations} *)
 
+(** All error-free transformations have an optional parameter: [wa]. It stands
+    for {i with assertions}, is [false] by default, and ensures that EFT are
+    called with valid inputs. *)
+
 (** Let {e a} and {e b} be float numbers such that {e |a| >= |b|}. Then
     [fast_two_sum a b] will produce a nonoverlapping expansion ({e x + y}) such
     that {e a + b = x + y}, where {e x} is an approximation to {e a + b} and {e
-    y} represents the roundoff error in the calculation of {e x}. [wa] stands for
-    {i with assertions} and is [false] by default. *)
+    y} represents the roundoff error in the calculation of {e x}. *)
 val fast_two_sum : ?wa:bool -> float -> float -> error_free_transformation
 
 (** Let {e a} and {e b} be float numbers. Then [two_sum a b] will produce a
     nonoverlapping expansion ({e x + y}) such that {e a + b = x + y}, where {e x}
     is an approximation to {e a + b} and {e y} represents the roundoff error in
-    the calculation of {e x}. [wa] stands for {i with assertions} and is [false]
-    by default. *)
+    the calculation of {e x}. *)
 val two_sum : ?wa:bool -> float -> float -> error_free_transformation
 
 (** Let {e a} be a float number. Then [split a] will produce a value {e a_hi}
     and a nonoverlapping value {e a_lo} such that {e |a_hi| >= |a_lo|} and {e a =
-    a_hi + a_lo}. [wa] stands for {i with assertions} and is [false] by default. *)
+    a_hi + a_lo}. *)
 val split : ?wa:bool -> float -> error_free_transformation
 
 (** Let {e a} and {e b} be float numbers. Then [two_product a b] will produce a
     nonoverlapping expansion ({e x + y}) such that {e ab = x + y}, where {e x} is
     an approximation to {e ab} and {e y} represents the roundoff error in the
-    calculation of {e x}. [wa] stands for {i with assertions} and is [false] by
-    default. *)
+    calculation of {e x}. *)
 val two_product : ?wa:bool -> float -> float -> error_free_transformation
 
 (** Let {e a} and {e b} be float numbers. Then [two_product_fma a b] will
     produce a nonoverlapping expansion ({e x + y}) such that {e ab = x + y},
     where {e x} is an approximation to {e ab} and {e y} represents the roundoff
     error in the calculation of {e x}. The roundoff error is computed with an fma
-    operation (faster than {!val:two_product} if hardware fma is available). [wa]
-    stands for {i with assertions} and is [false] by default. *)
+    operation (faster than {!val:two_product} if hardware fma is available). *)
 val two_product_fma : ?wa:bool -> float -> float -> error_free_transformation
 
 (**/**)
