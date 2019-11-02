@@ -39,6 +39,10 @@ val grow_expansion : expansion -> float -> expansion
 (** Add an expansion to another one. *)
 val expansion_sum : expansion -> expansion -> expansion
 
+(** [expansion_diff x y] subtracts [y] to [x]. It basically {!val:expansion_neg}
+    [y], then adds it to [x] with {!val:expansion_sum}. *)
+val expansion_diff : expansion -> expansion -> expansion
+
 (** Add an expansion to another one. May be faster. *)
 val fast_expansion_sum : expansion -> expansion -> expansion
 
@@ -48,6 +52,13 @@ val scale_expansion : expansion -> float -> expansion
 (** Multiply two expansions. [expansion_product] uses {!val:scale_expansion} and
     a distillation tree. *)
 val expansion_product : expansion -> expansion -> expansion
+
+(** [compare x y] returns 0 if [x] is equal to [y], a negative integer if [x] is
+    less than [y], and a positive integer if [x] is greater than [y]. *)
+val compare : expansion -> expansion -> int
+
+(** Unary negation of an expansion. *)
+val expansion_neg : expansion -> expansion
 
 (** {2 Cleanup functions} *)
 

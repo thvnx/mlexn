@@ -28,6 +28,13 @@ let rec expansion_sum e f =
   | h::t -> expansion_sum (grow_expansion e h) t
   | []   -> e
 
+let expansion_neg e =
+  List.map (fun f -> Float.neg f) e
+
+let expansion_diff e f =
+  let f = expansion_neg f in
+  expansion_sum e f
+
 let fast_expansion_sum e f =
   let rec exn acc q g =
     match g with
@@ -106,3 +113,8 @@ let to_string ?comp:(comp = true) ?sep:(sep = " ") e =
     | []   -> acc
   in
   print (List.rev (match comp with true -> compress e | false -> e))
+
+let compare e f =
+  match to_float (expansion_diff e f) with
+  | 0. -> 0
+  | f  -> if f > 0. then 1 else ~-1
