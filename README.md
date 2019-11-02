@@ -4,12 +4,18 @@
 
 OCaml implementation for floating-point expansions.
 
-_mlexn_ provides two modules, `Eft` implementing error-free transformations, and
-`Exn` implementing expansions as introduced in:
+_mlexn_ provides six modules:
+- `Eft` implementing error-free transformations,
+- `Exn` implementing expansions as introduced in:
 
 > Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric
 > Predicates - Richard Shewchuk, J. Discrete Comput Geom (1997) 18: 305.
 > https://doi.org/10.1007/PL00009321
+
+- `Cxn` implementing complex expansions,
+- `Dwa` implementing double-word arithmetic,
+- `Twa` implementing triple-word arithmetic, and,
+- `Qwa` implementing quadruple-word arithmetic.
 
 ## documentation
 
