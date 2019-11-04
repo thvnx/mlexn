@@ -35,5 +35,9 @@ val to_string : ?sep:string -> quadruple_word -> string
 (** Add a quadruple_word with a float. *)
 val add_float : quadruple_word -> float -> quadruple_word
 
+(** Add two quadruple_word numbers. [add_fast] is faster than
+    {!val:add_accurate}, but less accurate. *)
+val add_fast : quadruple_word -> quadruple_word -> quadruple_word
+
 (**/**)
 val renormalize : float list -> quadruple_word

@@ -55,3 +55,31 @@ let add_float q f =
   in
   match q with
     (a0, a1, a2, a3) -> renormalize (qwa [a0; a1; a2; a3] f)
+
+let add_fast a b =
+  let sum33 x y z =
+    let (u, v) = Eft.two_sum x y in
+    let (r0, w) = Eft.two_sum u z in
+    let (r1, r2) = Eft.two_sum v w in
+    (r0, r1, r2)
+  in
+  let sum32 x y z =
+    let (u, v) = Eft.two_sum x y in
+    let (r0, w) = Eft.two_sum u z in
+    let r1 = v +. w in
+    (r0, r1)
+  in
+  let sum31 x y z =
+    (x +. y) +. z
+  in
+  match a, b with
+    (a0, a1, a2, a3), (b0, b1, b2, b3) ->
+    let (r0, e0) = Eft.two_sum a0 b0 in
+    let (s1, e1) = Eft.two_sum a1 b1 in
+    let (s2, e2) = Eft.two_sum a2 b2 in
+    let (s3, e3) = Eft.two_sum a3 b3 in
+    let (r1, e4) = Eft.two_sum e0 s1 in
+    let (r2, e5, e6) = sum33 s2 e1 e4 in
+    let (r3, e7) = sum32 s3 e2 e5 in
+    let r4 = sum31 e3 e7 e6 in
+    renormalize [r0; r1; r2; r3; r4]
