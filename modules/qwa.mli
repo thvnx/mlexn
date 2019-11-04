@@ -30,6 +30,8 @@ val to_float : quadruple_word -> float
     Components are printed in order of {b decreasing} magnitude. *)
 val to_string : ?sep:string -> quadruple_word -> string
 
+(** {2 quadruple_word functions} *)
+
 (** Add a quadruple_word with a float. *)
 val add_float : quadruple_word -> float -> quadruple_word
 
