@@ -29,3 +29,9 @@ val to_float : quadruple_word -> float
 (** Convert to a string with component separator [sep] (default is [" "]).
     Components are printed in order of {b decreasing} magnitude. *)
 val to_string : ?sep:string -> quadruple_word -> string
+
+(** Add a quadruple_word with a float. *)
+val add_float : quadruple_word -> float -> quadruple_word
+
+(**/**)
+val renormalize : float list -> quadruple_word
