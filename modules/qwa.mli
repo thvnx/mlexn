@@ -56,5 +56,12 @@ val mul_float : quadruple_word -> float -> quadruple_word
     transformation. Faster if hardware fma is available. *)
 val mul_float_fma : quadruple_word -> float -> quadruple_word
 
+(** Multiply two quadruple_word numbers. *)
+val mul : quadruple_word -> quadruple_word -> quadruple_word
+
+(** Multiply two quadruple_word numbers using fma-based error-free
+    transformation. Faster if hardware fma is available.*)
+val mul_fma : quadruple_word -> quadruple_word -> quadruple_word
+
 (**/**)
 val renormalize : float list -> quadruple_word

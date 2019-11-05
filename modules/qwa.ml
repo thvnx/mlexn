@@ -157,3 +157,66 @@ let mul_float_fma a b =
     let (s3, e6) = sum32 s3 e2 e4 in
     renormalize [s0; s1; s2; s3; (e6 +. e5)]
 
+let sum63 a b c d e f =
+  let (s1, e1, e2) = sum33 a b c in
+  let (s2, e3, e4) = sum33 d e f in
+  let (r1, e5) = Eft.two_sum s1 s2 in
+  let (r2, e6) = Eft.two_sum e1 e3 in
+  let (r2, e7) = Eft.two_sum r2 e5 in
+  let r3 = sum31 (e2 +. e4) e6 e7 in
+  (r1, r2, r3)
+
+let sum92 a b c d e f g h i =
+  let (s1, e1) = Dwa.add (Eft.two_sum a b) (Eft.two_sum c d) in
+  let (s2, e2) = Dwa.add (Eft.two_sum e f) (Eft.two_sum g h) in
+  let (s3, e3) = Dwa.add (s1, e1) (s2, e2) in
+  Dwa.add_float (s3, e3) i
+
+let sum91 a b c d e f g h i =
+  a +. b +. c +. d +. e +. f +. g +. h +. i
+
+let mul a b =
+  match (a, b) with
+    (a0, a1, a2, a3), (b0, b1, b2, b3) ->
+    let (p00, q00) = Eft.two_product a0 b0 in
+    let (p01, q01) = Eft.two_product a0 b1 in
+    let (p10, q10) = Eft.two_product a1 b0 in
+    let (p02, q02) = Eft.two_product a0 b2 in
+    let (p11, q11) = Eft.two_product a1 b1 in
+    let (p20, q20) = Eft.two_product a2 b0 in
+    let (p03, q03) = Eft.two_product a0 b3 in
+    let (p12, q12) = Eft.two_product a1 b2 in
+    let (p21, q21) = Eft.two_product a2 b1 in
+    let (p30, q30) = Eft.two_product a3 b0 in
+    let p13 = a1 *. b3 in
+    let p22 = a2 *. b2 in
+    let p31 = a3 *. b1 in
+    let s0 = p00 in
+    let (s1, e1, e2) = sum33 q00 p01 p10 in
+    let (s2, e3, e4) = sum63 e1 q01 q10 p02 p11 p20 in
+    let (s3, e5) = sum92 e2 e3 q02 q11 q20 p03 p12 p21 p30 in
+    let s4 = sum91 e4 e5 q03 q12 q21 q30 p13 p22 p31 in
+    renormalize [s0; s1; s2; s3; s4]
+
+let mul_fma a b =
+  match (a, b) with
+    (a0, a1, a2, a3), (b0, b1, b2, b3) ->
+    let (p00, q00) = Eft.two_product_fma a0 b0 in
+    let (p01, q01) = Eft.two_product_fma a0 b1 in
+    let (p10, q10) = Eft.two_product_fma a1 b0 in
+    let (p02, q02) = Eft.two_product_fma a0 b2 in
+    let (p11, q11) = Eft.two_product_fma a1 b1 in
+    let (p20, q20) = Eft.two_product_fma a2 b0 in
+    let (p03, q03) = Eft.two_product_fma a0 b3 in
+    let (p12, q12) = Eft.two_product_fma a1 b2 in
+    let (p21, q21) = Eft.two_product_fma a2 b1 in
+    let (p30, q30) = Eft.two_product_fma a3 b0 in
+    let p13 = a1 *. b3 in
+    let p22 = a2 *. b2 in
+    let p31 = a3 *. b1 in
+    let s0 = p00 in
+    let (s1, e1, e2) = sum33 q00 p01 p10 in
+    let (s2, e3, e4) = sum63 e1 q01 q10 p02 p11 p20 in
+    let (s3, e5) = sum92 e2 e3 q02 q11 q20 p03 p12 p21 p30 in
+    let s4 = sum91 e4 e5 q03 q12 q21 q30 p13 p22 p31 in
+    renormalize [s0; s1; s2; s3; s4]
