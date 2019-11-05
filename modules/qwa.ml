@@ -83,3 +83,48 @@ let add_fast a b =
     let (r3, e7) = sum32 s3 e2 e5 in
     let r4 = sum31 e3 e7 e6 in
     renormalize [r0; r1; r2; r3; r4]
+
+let add a b =
+  let double_accumulate u v x =
+    let (s, v) = Eft.two_sum v x in
+    let (s, u) = Eft.two_sum u s in
+    let s = ref s in
+    let u = ref u in
+    let v = ref v in
+    if !u = 0. then
+      begin
+        u := !s;
+        s := 0.;
+      end;
+    if !v = 0. then
+      begin
+        v := !u;
+        u := !s;
+        s := 0.;
+      end;
+    (!s, !u, !v)
+  in
+  match (a, b) with
+    (a0, a1, a2, a3), (b0, b1, b2, b3) ->
+    let x = List.merge (fun x y -> ~- (Float.compare x y)) [a0; a1; a2; a3] [b0; b1; b2; b3] in
+    let rec cc ?u:(u = 0.) ?v:(v = 0.) ?k:(k = 0) ?i:(i = 0) ?acc:(acc = []) xi x =
+      if k < 4 && i < 8 then
+        begin
+          match x with
+          | h::t -> let (s, u, v) = double_accumulate u v xi in
+            if s <> 0.
+            then cc ~u:u ~v:v ~k:(k+1) ~i:(i+1) ~acc:(s::acc) h t
+            else cc ~u:u ~v:v ~k:k ~i:(i+1) ~acc:(acc) h t
+          | [] -> (acc, u, v)
+        end
+      else
+        (acc, u, v)
+    in
+    let (c, u, v) = cc (List.hd x) (List.tl x) in
+    let c = List.rev c in
+    match List.length c with
+    | 0 -> (u, v, 0., 0.)
+    | 1 -> (List.nth c 0, u, v, 0.)
+    | 2 -> (List.nth c 0, List.nth c 1, u, v)
+    | 3 -> (List.nth c 0, List.nth c 1, List.nth c 2, u)
+    | _ -> (List.nth c 0, List.nth c 1, List.nth c 2, List.nth c 3)
