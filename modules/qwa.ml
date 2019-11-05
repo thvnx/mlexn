@@ -220,3 +220,31 @@ let mul_fma a b =
     let (s3, e5) = sum92 e2 e3 q02 q11 q20 p03 p12 p21 p30 in
     let s4 = sum91 e4 e5 q03 q12 q21 q30 p13 p22 p31 in
     renormalize [s0; s1; s2; s3; s4]
+
+let div a b =
+  match (a, b) with
+    (a0, _, _, _), (b0, _, _, _) ->
+    let q0 = a0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float b q0) in
+    let q1 = r0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float b q1) in
+    let q2 = r0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float b q2) in
+    let q3 = r0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float b q3) in
+    let q4 = r0 /. b0 in
+    renormalize [q0; q1; q2; q3; q4]
+
+let div_fma a b =
+  match (a, b) with
+    (a0, _, _, _), (b0, _, _, _) ->
+    let q0 = a0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float_fma b q0) in
+    let q1 = r0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float_fma b q1) in
+    let q2 = r0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float_fma b q2) in
+    let q3 = r0 /. b0 in
+    let (r0, _, _, _) = sub a (mul_float_fma b q3) in
+    let q4 = r0 /. b0 in
+    renormalize [q0; q1; q2; q3; q4]
