@@ -248,3 +248,10 @@ let div_fma a b =
     let (r0, _, _, _) = sub a (mul_float_fma b q3) in
     let q4 = r0 /. b0 in
     renormalize [q0; q1; q2; q3; q4]
+
+(* TODO add QWA/DWA operations -> required for efficient div_float[_fma] *)
+let div_float a b =
+  div a (of_float b)
+
+let div_float_fma a b =
+  div_fma a (of_float b)

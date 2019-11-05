@@ -63,6 +63,13 @@ val mul : quadruple_word -> quadruple_word -> quadruple_word
     transformation. Faster if hardware fma is available.*)
 val mul_fma : quadruple_word -> quadruple_word -> quadruple_word
 
+(** Divide a quadruple_word with a float. *)
+val div_float : quadruple_word -> float -> quadruple_word
+
+(** Divide a quadruple_word with a float using fma-based error-free
+    transformation. Faster if hardware fma is available. *)
+val div_float_fma : quadruple_word -> float -> quadruple_word
+
 (** Divide two quadruple_word numbers. *)
 val div : quadruple_word -> quadruple_word -> quadruple_word
 
