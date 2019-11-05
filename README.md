@@ -9,7 +9,7 @@ _mlexn_ provides six modules:
 - `Exn` implementing expansions as introduced in:
 
 > Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric
-> Predicates - Richard Shewchuk, J. Discrete Comput Geom (1997) 18: 305.
+> Predicates - Richard Shewchuk, J. Discrete Comput Geom, 1997, 18:305.
 > https://doi.org/10.1007/PL00009321
 
 - `Cxn` implementing complex expansions,
@@ -18,10 +18,15 @@ _mlexn_ provides six modules:
 > Tight and rigourous error bounds for basic building blocks of double-word
 > arithmetic - Mioara Joldes, Jean-Michel Muller, Valentina Popescu, ACM
 > Transactions on Mathematical Software, Association for Computing Machinery,
-> 2017, 44 (2), pp.1 - 27. https://doi.org/10.1145/3121432
+> 2017, 44 (2), pp.1-27. https://doi.org/10.1145/3121432
 
 - `Twa` implementing triple-word arithmetic, and,
-- `Qwa` implementing quadruple-word arithmetic.
+- `Qwa` implementing quadruple-word arithmetic:
+
+> Algorithms for quad-double precision floating-point arithmetic - Yozo Hida,
+> Xiaoye S. Li, David H. Bailey, In Proceedings of the IEEE Symposium on
+> Computer Arithmetic (ARITH’16), 2001, pp.155–162.
+> https://doi.org/10.1109/ARITH.2001.930115
 
 ## documentation
 
