@@ -49,5 +49,12 @@ val sub_fast : quadruple_word -> quadruple_word -> quadruple_word
 (** Subtract two quadruple_word numbers. *)
 val sub : quadruple_word -> quadruple_word -> quadruple_word
 
+(** Multiply a quadruple_word with a float. *)
+val mul_float : quadruple_word -> float -> quadruple_word
+
+(** Multiply a quadruple_word with a float using fma-based error-free
+    transformation. Faster if hardware fma is available. *)
+val mul_float_fma : quadruple_word -> float -> quadruple_word
+
 (**/**)
 val renormalize : float list -> quadruple_word

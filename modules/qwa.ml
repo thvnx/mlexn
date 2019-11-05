@@ -56,22 +56,22 @@ let add_float q f =
   match q with
     (a0, a1, a2, a3) -> renormalize (qwa [a0; a1; a2; a3] f)
 
+let sum33 x y z =
+  let (u, v) = Eft.two_sum x y in
+  let (r0, w) = Eft.two_sum u z in
+  let (r1, r2) = Eft.two_sum v w in
+  (r0, r1, r2)
+
+let sum32 x y z =
+  let (u, v) = Eft.two_sum x y in
+  let (r0, w) = Eft.two_sum u z in
+  let r1 = v +. w in
+  (r0, r1)
+
+let sum31 x y z =
+  (x +. y) +. z
+
 let add_fast a b =
-  let sum33 x y z =
-    let (u, v) = Eft.two_sum x y in
-    let (r0, w) = Eft.two_sum u z in
-    let (r1, r2) = Eft.two_sum v w in
-    (r0, r1, r2)
-  in
-  let sum32 x y z =
-    let (u, v) = Eft.two_sum x y in
-    let (r0, w) = Eft.two_sum u z in
-    let r1 = v +. w in
-    (r0, r1)
-  in
-  let sum31 x y z =
-    (x +. y) +. z
-  in
   match a, b with
     (a0, a1, a2, a3), (b0, b1, b2, b3) ->
     let (r0, e0) = Eft.two_sum a0 b0 in
@@ -134,3 +134,26 @@ let sub_fast a b =
 
 let sub a b =
   match b with (b0, b1, b2, b3) -> add a (~-. b0, ~-. b1, ~-. b2, ~-. b3)
+
+let mul_float a b =
+  match a with (a0, a1, a2, a3) ->
+    let (s0, e0) = Eft.two_product a0 b in
+    let (s1, e1) = Eft.two_product a1 b in
+    let (s2, e2) = Eft.two_product a2 b in
+    let s3 =  a3 *. b in
+    let (s1, e3) = Eft.two_sum e0 s1 in
+    let (s2, e4, e5) = sum33 s2 e1 e3 in
+    let (s3, e6) = sum32 s3 e2 e4 in
+    renormalize [s0; s1; s2; s3; (e6 +. e5)]
+
+let mul_float_fma a b =
+  match a with (a0, a1, a2, a3) ->
+    let (s0, e0) = Eft.two_product_fma a0 b in
+    let (s1, e1) = Eft.two_product_fma a1 b in
+    let (s2, e2) = Eft.two_product_fma a2 b in
+    let s3 =  a3 *. b in
+    let (s1, e3) = Eft.two_sum e0 s1 in
+    let (s2, e4, e5) = sum33 s2 e1 e3 in
+    let (s3, e6) = sum32 s3 e2 e4 in
+    renormalize [s0; s1; s2; s3; (e6 +. e5)]
+
