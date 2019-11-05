@@ -128,3 +128,9 @@ let add a b =
     | 2 -> (List.nth c 0, List.nth c 1, u, v)
     | 3 -> (List.nth c 0, List.nth c 1, List.nth c 2, u)
     | _ -> (List.nth c 0, List.nth c 1, List.nth c 2, List.nth c 3)
+
+let sub_fast a b =
+  match b with (b0, b1, b2, b3) -> add_fast a (~-. b0, ~-. b1, ~-. b2, ~-. b3)
+
+let sub a b =
+  match b with (b0, b1, b2, b3) -> add a (~-. b0, ~-. b1, ~-. b2, ~-. b3)

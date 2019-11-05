@@ -42,5 +42,12 @@ val add_fast : quadruple_word -> quadruple_word -> quadruple_word
 (** Add two quadruple_word numbers. *)
 val add : quadruple_word -> quadruple_word -> quadruple_word
 
+(** Subtract two quadruple_word numbers. [sub_fast] is faster than {!val:sub},
+    but less accurate. *)
+val sub_fast : quadruple_word -> quadruple_word -> quadruple_word
+
+(** Subtract two quadruple_word numbers. *)
+val sub : quadruple_word -> quadruple_word -> quadruple_word
+
 (**/**)
 val renormalize : float list -> quadruple_word
