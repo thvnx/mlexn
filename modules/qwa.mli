@@ -13,6 +13,14 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Algorithms for double_word arithmetic come from:
+
+{v Algorithms for quad-double precision floating-point arithmetic - Yozo Hida,
+Xiaoye S. Li, David H. Bailey, In Proceedings of the IEEE Symposium on
+Computer Arithmetic (ARITH’16), 2001, pp.155–162. v}
+
+    see {{:https://doi.org/10.1109/ARITH.2001.930115}https://doi.org/10.1109/ARITH.2001.930115}. *)
+
 (** Nonoverlapping expansion of four float components sorted in order of {b
     decreasing} magnitude, such as {e a op b = m + n + o + p}
     ([(m, n, o, p)]). *)
