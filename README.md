@@ -25,6 +25,7 @@ _mlexn_ provides six modules:
 > Algorithms for triple-word arithmetic - Nicolas Fabiano, Jean-Michel Muller,
 > Joris Picot. IEEE Transactions on Computers, Institute of Electrical and
 > Electronics Engineers, 2019, 68 (11), pp.1573-1583.
+> https://dx.doi.org/10.1109/TC.2019.2918451
 
 - and, `Qwa` implementing quadruple-word arithmetic:
 
