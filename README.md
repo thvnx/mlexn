@@ -20,8 +20,13 @@ _mlexn_ provides six modules:
 > Transactions on Mathematical Software, Association for Computing Machinery,
 > 2017, 44 (2), pp.1-27. https://doi.org/10.1145/3121432
 
-- `Twa` implementing triple-word arithmetic, and,
-- `Qwa` implementing quadruple-word arithmetic:
+- `Twa` implementing triple-word arithmetic as in:
+
+> Algorithms for triple-word arithmetic - Nicolas Fabiano, Jean-Michel Muller,
+> Joris Picot. IEEE Transactions on Computers, Institute of Electrical and
+> Electronics Engineers, 2019, 68 (11), pp.1573-1583.
+
+- and, `Qwa` implementing quadruple-word arithmetic:
 
 > Algorithms for quad-double precision floating-point arithmetic - Yozo Hida,
 > Xiaoye S. Li, David H. Bailey, In Proceedings of the IEEE Symposium on

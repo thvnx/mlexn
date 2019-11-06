@@ -13,6 +13,14 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
+(** Algorithms for triple_word arithmetic come from:
+
+{v  Algorithms for triple-word arithmetic - Nicolas Fabiano, Jean-Michel Muller,
+Joris Picot. IEEE Transactions on Computers, Institute of Electrical and
+Electronics Engineers, 2019, 68 (11), pp.1573-1583. v}
+
+    see {{:https://dx.doi.org/10.1109/TC.2019.2918451}https://dx.doi.org/10.1109/TC.2019.2918451}. *)
+
 (** Nonoverlapping expansion of three float components sorted in order of {b
     decreasing} magnitude, such as {e a op b = x + y + z} ([(x, y, z)]). *)
 type triple_word = float * float * float
