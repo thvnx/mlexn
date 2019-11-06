@@ -20,3 +20,22 @@ let to_float w = match w with (x, y, z) -> x +. y +. z
 
 let to_string ?sep:(sep = " ") w =
   match w with (x, y, z) -> Printf.sprintf "%h%s%h%s%h" x sep y sep z
+
+let vecsum e =
+  let rec eft ?acc:(acc = []) s e =
+    match e with
+    | h::t -> let (s, e) = Eft.two_sum h s in eft ~acc:(e::acc) s t
+    | []   -> List.rev (s::acc)
+  in
+  eft (List.hd e) (List.tl e)
+
+let vecsum_err_branch e =
+  let rec yy ?acc:(acc = []) eps e =
+    match e with
+    | h::t -> let (r, eps) = Eft.two_sum eps h in
+      if eps <> 0. then yy ~acc:(r::acc) eps t
+      else yy ~acc:acc r t
+    | []   -> List.rev (eps::acc)
+  in
+  let e = List.rev e in
+  yy (List.hd e) (List.tl e)

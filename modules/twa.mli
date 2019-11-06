@@ -36,3 +36,15 @@ val to_float : triple_word -> float
 (** Convert to a string with component separator [sep] (default is [" "]).
     Components are printed in order of {b decreasing} magnitude. *)
 val to_string : ?sep:string -> triple_word -> string
+
+(** {2 triple_word functions} *)
+
+(**/**)
+
+(** [vecsum] turns a sequence that is "slightly" nonoverlapping into ont that is
+    "more" nonoverlapping, with no error. *)
+val vecsum : Exn.expansion -> Exn.expansion
+
+(** [vecsum_err_branch] has similarities with {!val:vecsum} with some help
+    avoiding to return too many zero terms. *)
+val vecsum_err_branch : Exn.expansion -> Exn.expansion
