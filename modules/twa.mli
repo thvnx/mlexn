@@ -28,7 +28,7 @@ type triple_word = float * float * float
 (** {2 Conversion functions} *)
 
 (** Create a triple-word from a float. *)
-val of_float : float  -> triple_word
+val of_float : float -> triple_word
 
 (** Convert a triple-word back to a float. *)
 val to_float : triple_word -> float
