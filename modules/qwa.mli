@@ -13,7 +13,7 @@
    You should have received a copy of the GNU General Public License along with
    mlexn.  If not, see <http://www.gnu.org/licenses/>. *)
 
-(** Algorithms for double_word arithmetic come from:
+(** Algorithms for quadruple_word arithmetic come from:
 
 {v Algorithms for quad-double precision floating-point arithmetic - Yozo Hida,
 Xiaoye S. Li, David H. Bailey, In Proceedings of the IEEE Symposium on
