@@ -39,6 +39,9 @@ val to_string : ?sep:string -> triple_word -> string
 
 (** {2 triple_word functions} *)
 
+(** Add two triple_word numbers. *)
+val add : triple_word -> triple_word -> triple_word
+
 (**/**)
 
 (** [vecsum] turns a sequence that is "slightly" nonoverlapping into ont that is

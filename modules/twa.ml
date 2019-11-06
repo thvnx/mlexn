@@ -50,3 +50,14 @@ let to_triple_word a b c =
   | 1 -> (List.nth r 0, 0., 0.)
   | 2 -> (List.nth r 0, List.nth r 1, 0.)
   | _ -> (List.nth r 0, List.nth r 1, List.nth r 2)
+
+let add x y =
+  match (x, y) with (x0, x1, x2), (y0, y1, y2) ->
+    let z = List.merge (fun x y -> ~- (Float.compare x y)) [x0; x1; x2] [y0; y1; y2] in
+    let e = vecsum z in
+    let r = vecsum_err_branch e in
+    match List.length r with
+    | 0 -> (0., 0., 0.)
+    | 1 -> (List.nth r 0, 0., 0.)
+    | 2 -> (List.nth r 0, List.nth r 1, 0.)
+    | _ -> (List.nth r 0, List.nth r 1, List.nth r 2)
