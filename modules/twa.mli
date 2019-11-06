@@ -48,3 +48,5 @@ val vecsum : Exn.expansion -> Exn.expansion
 (** [vecsum_err_branch] has similarities with {!val:vecsum} with some help
     avoiding to return too many zero terms. *)
 val vecsum_err_branch : Exn.expansion -> Exn.expansion
+
+val to_triple_word : float -> float -> float -> triple_word

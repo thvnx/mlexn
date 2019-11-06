@@ -16,6 +16,7 @@
 type triple_word = float * float * float
 
 let of_float f = (f, 0., 0.)
+(* TODO need to change rounding mode for proper conversion *)
 let to_float w = match w with (x, y, z) -> x +. y +. z
 
 let to_string ?sep:(sep = " ") w =
@@ -39,3 +40,13 @@ let vecsum_err_branch e =
   in
   let e = List.rev e in
   yy (List.hd e) (List.tl e)
+
+let to_triple_word a b c =
+  let (d0, d1) = Eft.two_sum a b in
+  let e = vecsum [d0; d1; c] in
+  let r = vecsum_err_branch e in
+  match List.length r with
+  | 0 -> (0., 0., 0.)
+  | 1 -> (List.nth r 0, 0., 0.)
+  | 2 -> (List.nth r 0, List.nth r 1, 0.)
+  | _ -> (List.nth r 0, List.nth r 1, List.nth r 2)
