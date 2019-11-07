@@ -42,6 +42,9 @@ val to_string : ?sep:string -> triple_word -> string
 (** Add two triple_word numbers. *)
 val add : triple_word -> triple_word -> triple_word
 
+(** Subtract two triple_word numbers. *)
+val sub : triple_word -> triple_word -> triple_word
+
 (** Multiply two triple_word numbers. *)
 val mul : triple_word -> triple_word -> triple_word
 
@@ -53,6 +56,12 @@ val mul_dwa : triple_word -> Dwa.double_word -> triple_word
 
 (** Multiply a triple_word and a double_word number, faster than {!val:mul_dwa}. *)
 val mul_dwa_fast : triple_word -> Dwa.double_word -> triple_word
+
+(** Compute the reciprocal of a triple_word number. *)
+val reciprocal : triple_word -> triple_word
+
+(** Divide two triple_word numbers. *)
+val div : triple_word -> triple_word -> triple_word
 
 (**/**)
 

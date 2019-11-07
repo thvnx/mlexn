@@ -62,6 +62,9 @@ let add x y =
     | 2 -> (List.nth r 0, List.nth r 1, 0.)
     | _ -> (List.nth r 0, List.nth r 1, List.nth r 2)
 
+let sub x y =
+  match y with (y0, y1, y2) -> add x (~-. y0, ~-. y1, ~-. y2)
+
 let mul x y =
   match (x, y) with (x0, x1, x2), (y0, y1, y2) ->
     let (z00p, z00m) = Eft.two_product_fma x0 y0 in
@@ -117,3 +120,26 @@ let mul_dwa_fast y x =
     let e = vecsum [z00p; List.nth b 0; List.nth b 1; s3] in
     let r = vecsum_err_branch (List.tl e) in
     (List.hd e, List.nth r 1, List.nth r 2)
+
+let reciprocal x =
+  match x with (x0, x1, _) ->
+    let a = (1. +. 2. *. Float.epsilon) /. x0 in
+    let h11 = Float.fma a x0 (~-. (1. +. 2. *. Float.epsilon)) in
+    let h1 = Float.fma (~-. a) x1 (~-. h11) in
+    let (b01, b11) = Eft.two_product_fma a (1. -. 2. *. Float.epsilon) in
+    let b12 = Float.fma a h1 b11 in
+    let b = Eft.fast_two_sum b01 b12 in
+    let i = sub (of_float 2.) (mul_dwa x b) in
+    mul_dwa i b
+
+let div z x =
+  match x with (x0, x1, _) ->
+    let a = (1. +. 2. *. Float.epsilon) /. x0 in
+    let h11 = Float.fma a x0 (~-. (1. +. 2. *. Float.epsilon)) in
+    let h1 = Float.fma (~-. a) x1 (~-. h11) in
+    let (b01, b11) = Eft.two_product_fma a (1. -. 2. *. Float.epsilon) in
+    let b12 = Float.fma a h1 b11 in
+    let b = Eft.fast_two_sum b01 b12 in
+    let i = sub (of_float 2.) (mul_dwa x b) in
+    let a = mul_dwa z b in
+    mul a i
