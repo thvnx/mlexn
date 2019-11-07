@@ -42,6 +42,18 @@ val to_string : ?sep:string -> triple_word -> string
 (** Add two triple_word numbers. *)
 val add : triple_word -> triple_word -> triple_word
 
+(** Multiply two triple_word numbers. *)
+val mul : triple_word -> triple_word -> triple_word
+
+(** Multiply two triple_word numbers, faster than {!val:mul}. *)
+val mul_fast : triple_word -> triple_word -> triple_word
+
+(** Multiply a triple_word and a double_word number. *)
+val mul_dwa : triple_word -> Dwa.double_word -> triple_word
+
+(** Multiply a triple_word and a double_word number, faster than {!val:mul_dwa}. *)
+val mul_dwa_fast : triple_word -> Dwa.double_word -> triple_word
+
 (**/**)
 
 (** [vecsum] turns a sequence that is "slightly" nonoverlapping into ont that is

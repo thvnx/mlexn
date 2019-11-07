@@ -61,3 +61,59 @@ let add x y =
     | 1 -> (List.nth r 0, 0., 0.)
     | 2 -> (List.nth r 0, List.nth r 1, 0.)
     | _ -> (List.nth r 0, List.nth r 1, List.nth r 2)
+
+let mul x y =
+  match (x, y) with (x0, x1, x2), (y0, y1, y2) ->
+    let (z00p, z00m) = Eft.two_product_fma x0 y0 in
+    let (z01p, z01m) = Eft.two_product_fma x0 y1 in
+    let (z10p, z10m) = Eft.two_product_fma x1 y0 in
+    let b = vecsum [z00m; z01p; z10p] in
+    let c = Float.fma x1 y1 (List.nth b 2) in
+    let z31 = Float.fma x0 y2 z10m in
+    let z32 = Float.fma x2 y0 z01m in
+    let z3 = z31 +. z32 in
+    let e = vecsum [z00p; List.nth b 0; List.nth b 1; c; z3] in
+    let r = vecsum_err_branch (List.tl e) in
+    (List.hd e, List.nth r 1, List.nth r 2)
+
+let mul_fast x y =
+  match (x, y) with (x0, x1, x2), (y0, y1, y2) ->
+    let (z00p, z00m) = Eft.two_product_fma x0 y0 in
+    let (z01p, z01m) = Eft.two_product_fma x0 y1 in
+    let (z10p, z10m) = Eft.two_product_fma x1 y0 in
+    let b = vecsum [z00m; z01p; z10p] in
+    let c = Float.fma x1 y1 (List.nth b 2) in
+    let z31 = Float.fma x0 y2 z10m in
+    let z32 = Float.fma x2 y0 z01m in
+    let z3 = z31 +. z32 in
+    let s3 = c +. z3 in
+    let e = vecsum [z00p; List.nth b 0; List.nth b 1; s3] in
+    let r = vecsum_err_branch (List.tl e) in
+    (List.hd e, List.nth r 1, List.nth r 2)
+
+let mul_dwa y x =
+  match (x, y) with (x0, x1), (y0, y1, y2) ->
+    let (z00p, z00m) = Eft.two_product_fma x0 y0 in
+    let (z01p, z01m) = Eft.two_product_fma x0 y1 in
+    let (z10p, z10m) = Eft.two_product_fma x1 y0 in
+    let b = vecsum [z00m; z01p; z10p] in
+    let c = Float.fma x1 y1 (List.nth b 2) in
+    let z31 = Float.fma x0 y2 z10m in
+    let z3 = z31 +. z01m in
+    let e = vecsum [z00p; List.nth b 0; List.nth b 1; c; z3] in
+    let r = vecsum_err_branch (List.tl e) in
+    (List.hd e, List.nth r 1, List.nth r 2)
+
+let mul_dwa_fast y x =
+  match (x, y) with (x0, x1), (y0, y1, y2) ->
+    let (z00p, z00m) = Eft.two_product_fma x0 y0 in
+    let (z01p, z01m) = Eft.two_product_fma x0 y1 in
+    let (z10p, z10m) = Eft.two_product_fma x1 y0 in
+    let b = vecsum [z00m; z01p; z10p] in
+    let c = Float.fma x1 y1 (List.nth b 2) in
+    let z31 = Float.fma x0 y2 z10m in
+    let z3 = z31 +. z01m in
+    let s3 = c +. z3 in
+    let e = vecsum [z00p; List.nth b 0; List.nth b 1; s3] in
+    let r = vecsum_err_branch (List.tl e) in
+    (List.hd e, List.nth r 1, List.nth r 2)
