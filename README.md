@@ -71,4 +71,4 @@ The following figure shows how much using expansion can be efficient to obtain
 accurate results. Below _p(x)_ (which is subject to accuracy problems because of
 its multiple roots), have been evaluated around one of its roots:
 
-![](testsuite/horner.svg)
+![](testsuite/horner/horner.svg)
