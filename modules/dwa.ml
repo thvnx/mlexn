@@ -159,7 +159,7 @@ let div x y =
 let div_fma x y =
   match x, y with (xh, xl), (yh, yl) ->
     let th = 1. /. yh in
-    let rh = Float.fma yh th (~-. 1.) in
+    let rh = 1. -. yh *. th in
     let rl = ~-. (yl *. th) in
     let (eh, el) = Eft.fast_two_sum rh rl in
     let (dh, dl) = mul_float_fma (eh, el) th in
