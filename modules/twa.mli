@@ -63,6 +63,9 @@ val reciprocal : triple_word -> triple_word
 (** Divide two triple_word numbers. *)
 val div : triple_word -> triple_word -> triple_word
 
+(** Compute the square root of a triple_word number. *)
+val sqrt : triple_word -> triple_word
+
 (**/**)
 
 (** [vecsum] turns a sequence that is "slightly" nonoverlapping into ont that is

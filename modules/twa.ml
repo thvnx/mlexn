@@ -143,3 +143,20 @@ let div z x =
     let i = sub (of_float 2.) (mul_dwa x b) in
     let a = mul_dwa z b in
     mul a i
+
+let sqrt x =
+  match x with (x0, x1, _) ->
+    let a = (1. +. 4. *. Float.epsilon) /. (Float.sqrt x0) in
+    let ap = 0.5 *. a in
+    let (h01, h111) = Eft.two_product_fma a x0 in
+    let h11 = Float.fma a x1 h111 in
+    let (h012, h112) = Eft.two_product_fma ap h01 in
+    let h02 = 1.5 -. h012 in
+    let h12 = ~-. (Float.fma ap h11 h112) in
+    let (b01, b11) = Eft.two_product_fma a h02 in
+    let b12 = Float.fma a h12 b11 in
+    let b = Eft.fast_two_sum b01 b12 in
+    let bp = Dwa.mul (Dwa.of_float 0.5) b in
+    let i1 = mul_dwa x b in
+    let i2 = sub (of_float 1.5) (mul_dwa i1 bp) in
+    mul i1 i2
