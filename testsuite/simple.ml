@@ -17,6 +17,6 @@ let dwa x =
 
 let _ =
   List.iter (fun x ->
-      Printf.printf "# simple tests, x = %h\n" x;
+      Printf.printf "#DWA tests, x = %h\n" x;
       dwa x;
       Printf.printf "\n") [1.; 2.; 4.; 8.; ~-. 1.; ~-. 2.; ~-. 4.; ~-. 8.]
