@@ -76,8 +76,12 @@ let mul x y =
     let z32 = Float.fma x2 y0 z01m in
     let z3 = z31 +. z32 in
     let e = vecsum [z00p; List.nth b 0; List.nth b 1; c; z3] in
+    let e = List.rev e in
     let r = vecsum_err_branch (List.tl e) in
-    (List.hd e, List.nth r 1, List.nth r 2)
+    match List.length r with
+    | 0 -> (List.hd e, 0., 0.)
+    | 1 -> (List.hd e, List.nth r 0, 0.)
+    | _ -> (List.hd e, List.nth r 0, List.nth r 1)
 
 let mul_fast x y =
   match (x, y) with (x0, x1, x2), (y0, y1, y2) ->
@@ -91,8 +95,12 @@ let mul_fast x y =
     let z3 = z31 +. z32 in
     let s3 = c +. z3 in
     let e = vecsum [z00p; List.nth b 0; List.nth b 1; s3] in
+    let e = List.rev e in
     let r = vecsum_err_branch (List.tl e) in
-    (List.hd e, List.nth r 1, List.nth r 2)
+    match List.length r with
+    | 0 -> (List.hd e, 0., 0.)
+    | 1 -> (List.hd e, List.nth r 0, 0.)
+    | _ -> (List.hd e, List.nth r 0, List.nth r 1)
 
 let mul_dwa y x =
   match (x, y) with (x0, x1), (y0, y1, y2) ->
@@ -104,8 +112,12 @@ let mul_dwa y x =
     let z31 = Float.fma x0 y2 z10m in
     let z3 = z31 +. z01m in
     let e = vecsum [z00p; List.nth b 0; List.nth b 1; c; z3] in
+    let e = List.rev e in
     let r = vecsum_err_branch (List.tl e) in
-    (List.hd e, List.nth r 1, List.nth r 2)
+    match List.length r with
+    | 0 -> (List.hd e, 0., 0.)
+    | 1 -> (List.hd e, List.nth r 0, 0.)
+    | _ -> (List.hd e, List.nth r 0, List.nth r 1)
 
 let mul_dwa_fast y x =
   match (x, y) with (x0, x1), (y0, y1, y2) ->
@@ -118,8 +130,12 @@ let mul_dwa_fast y x =
     let z3 = z31 +. z01m in
     let s3 = c +. z3 in
     let e = vecsum [z00p; List.nth b 0; List.nth b 1; s3] in
+    let e = List.rev e in
     let r = vecsum_err_branch (List.tl e) in
-    (List.hd e, List.nth r 1, List.nth r 2)
+    match List.length r with
+    | 0 -> (List.hd e, 0., 0.)
+    | 1 -> (List.hd e, List.nth r 0, 0.)
+    | _ -> (List.hd e, List.nth r 0, List.nth r 1)
 
 let reciprocal x =
   match x with (x0, x1, _) ->
