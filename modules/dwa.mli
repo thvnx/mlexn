@@ -46,6 +46,9 @@ val add_float : double_word -> float -> double_word
 (** Addition of two double_word. *)
 val add : double_word -> double_word -> double_word
 
+(** Subtract of two double_word. *)
+val sub : double_word -> double_word -> double_word
+
 (** Multiplication of a double_word and a float. *)
 val mul_float : double_word -> float -> double_word
 

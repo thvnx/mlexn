@@ -46,6 +46,9 @@ let add x y =
     let (zh, zl) = Eft.fast_two_sum vh w in
     (zh, zl)
 
+let sub x y =
+  match y with (yh, yl) -> add x (~-. yh, ~-. yl)
+
 let mul_float x y =
   match x with (xh, xl) ->
     let (ch, cl1) = Eft.two_product xh y in
