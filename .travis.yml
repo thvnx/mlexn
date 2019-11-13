@@ -17,7 +17,7 @@ install:
 before_script:
   - opam init -a
   - eval $(opam env)
-  - opam install dune odoc -y
+  - opam install dune odoc mlfenv -y
 
 script:
   - dune build @install
