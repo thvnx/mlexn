@@ -16,8 +16,23 @@
 type triple_word = float * float * float
 
 let of_float f = (f, 0., 0.)
-(* TODO need to change rounding mode for proper conversion *)
-let to_float w = match w with (x, y, z) -> x +. y +. z
+let to_float w =
+  match w with (x, y, z) ->
+    let rnd = Fenv.fegetround () in
+    let (_, e) = Eft.fast_two_sum x (2. *. y) in
+    let u = Float.epsilon in
+    let c = (~-. (((3. /. 2.) *. u) -. (2. *. u *. u))) *. x in
+    if e <> 0. || c <> y then
+      Fenv.fesetround Fenv.TONEAREST
+    else if z > 0. then
+      Fenv.fesetround Fenv.UPWARD
+    else if z < 0. then
+      Fenv.fesetround Fenv.DOWNWARD
+    else
+      Fenv.fesetround Fenv.TONEAREST;
+    let r = x +. y in
+    Fenv.fesetround rnd;
+    r
 
 let to_string ?sep:(sep = " ") w =
   match w with (x, y, z) -> Printf.sprintf "%h%s%h%s%h" x sep y sep z
