@@ -34,6 +34,18 @@ _mlexn_ provides six modules:
 > Computer Arithmetic (ARITH’16), 2001, pp.155–162.
 > https://doi.org/10.1109/ARITH.2001.930115
 
+## installation
+
+_mlexn_ depends on _dune_ build system and on the
+_[mlfenv](https://github.com/thvnx/mlfenv)_ library. Both are available on
+_opam_:
+
+```bash
+opam install dune mlfenv
+dune build @all @runtest
+dune install
+```
+
 ## documentation
 
 Documentation can be generated thanks to package _odoc_:
