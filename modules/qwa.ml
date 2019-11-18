@@ -37,7 +37,7 @@ let renormalize a =
         bb ~acc:(s::acc) e t
       else
         bb ~acc:acc s t
-    | [] -> acc
+    | [] -> s::acc
   in
   let a = List.rev a in
   let t = tt (List.hd a) (List.tl a) in
