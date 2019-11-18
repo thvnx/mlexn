@@ -222,31 +222,33 @@ let mul_fma a b =
     renormalize [s0; s1; s2; s3; s4]
 
 let div a b =
+  let rz r = match r with (r0, _, _, _) -> r0 in
   match (a, b) with
     (a0, _, _, _), (b0, _, _, _) ->
     let q0 = a0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float b q0) in
-    let q1 = r0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float b q1) in
-    let q2 = r0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float b q2) in
-    let q3 = r0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float b q3) in
-    let q4 = r0 /. b0 in
+    let r = sub a (mul_float b q0) in
+    let q1 = (rz r) /. b0 in
+    let r = sub r (mul_float b q1) in
+    let q2 = (rz r) /. b0 in
+    let r = sub r (mul_float b q2) in
+    let q3 = (rz r) /. b0 in
+    let r = sub r (mul_float b q3) in
+    let q4 = (rz r) /. b0 in
     renormalize [q0; q1; q2; q3; q4]
 
 let div_fma a b =
+  let rz r = match r with (r0, _, _, _) -> r0 in
   match (a, b) with
     (a0, _, _, _), (b0, _, _, _) ->
     let q0 = a0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float_fma b q0) in
-    let q1 = r0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float_fma b q1) in
-    let q2 = r0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float_fma b q2) in
-    let q3 = r0 /. b0 in
-    let (r0, _, _, _) = sub a (mul_float_fma b q3) in
-    let q4 = r0 /. b0 in
+    let r = sub a (mul_float_fma b q0) in
+    let q1 = (rz r) /. b0 in
+    let r = sub r (mul_float_fma b q1) in
+    let q2 = (rz r) /. b0 in
+    let r = sub r (mul_float_fma b q2) in
+    let q3 = (rz r) /. b0 in
+    let r = sub r (mul_float_fma b q3) in
+    let q4 = (rz r) /. b0 in
     renormalize [q0; q1; q2; q3; q4]
 
 (* TODO add QWA/DWA operations -> required for efficient div_float[_fma] *)
