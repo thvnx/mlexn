@@ -123,7 +123,7 @@ let add a b =
     let (c, u, v) = cc (List.hd x) (List.tl x) in
     let c = List.rev c in
     match List.length c with
-    | 0 -> (u, v, 0., 0.)
+    | 0 -> (v, 0., 0., 0.)
     | 1 -> (List.nth c 0, u, v, 0.)
     | 2 -> (List.nth c 0, List.nth c 1, u, v)
     | 3 -> (List.nth c 0, List.nth c 1, List.nth c 2, u)
